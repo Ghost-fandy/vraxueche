@@ -1,0 +1,42 @@
+<!--login/index.wxml-->
+<view class="page">
+
+  <view class="login_head"></view>
+
+  <view class="weui-cells weui-cells_after-title">
+  
+    <view class="weui-cell weui-cell_input input-cell-box">
+        <view class="weui-cell__hd">
+            <view class="icon_box icon_tel"></view>
+        </view>
+        <view class="weui-cell__bd input-box">
+            <input class="weui-input" placeholder-class="placeholder" placeholder="请输入您的手机号"/>
+        </view>
+    </view>
+
+  </view>
+
+  <view class="weui-cells weui-cells_after-title">
+  
+    <view class="weui-cell weui-cell_input input-cell-box">
+        <view class="weui-cell__hd">
+            <view class="icon_box icon_code"></view>
+        </view>
+        <view class="weui-cell__bd input-box">
+            <input class="weui-input" placeholder-class="placeholder" placeholder="请输入验证码"/>
+        </view>
+        <view class="weui-cell__ft">
+        <button class="btn-radius weui-btn" type="primary" size="mini" plain="true">获取验证码</button>
+        </view>
+    </view>
+    
+  </view>
+
+<view class="login-box">
+  <button bindtap="loginAction" class="weui-btn btn-radius btn-common" type="primary">登录</button>
+  <view class="login-desc">点击登录，即表示已阅读并同意《
+    <navigator class="login-desc-rule">VR学车服务条款</navigator>
+  》</view>
+</view>
+
+</view>

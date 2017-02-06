@@ -2,12 +2,21 @@
 <!--login/index.wxml-->
 <view class="page">
 
-<view class="action-box">
-    <button class="btn-common btn-radius weui-btn" type="primary" size="mini">登录</button>
-</view>
-    <!-- map.wxml -->
-    <map id="map" longitude="113.324520" latitude="23.099994" scale="14" controls="{{controls}}" bindcontroltap="controltap" markers="{{markers}}" bindmarkertap="markertap" polyline="{{polyline}}" bindregionchange="regionchange" show-location="true" class="map-common"></map>
-
+<!-- map.wxml -->
+<map id="map" 
+	longitude="{{longitude}}" 
+	latitude="{{latitude}}"
+	scale="10" 
+	controls="{{controls}}" 
+	bindcontroltap="controltap" 
+	markers="{{markers}}" 
+	bindmarkertap="markertap" 
+	polyline="{{polyline}}" 
+	bindregionchange="regionchange" 
+	show-location="true" 
+	class="map-common"
+	circles="{{circles}}">
+</map>
 
 </view>
 

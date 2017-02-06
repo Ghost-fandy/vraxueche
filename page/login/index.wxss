@@ -23,11 +23,11 @@
   margin-bottom: 10rpx;
 }
 .icon_tel {
-  background: url("http://cdn.fandypeng.com/vraxueche/tel@2x.png") no-repeat;
+  background: url("https://cdn.fandypeng.com/vraxueche/tel@3x.png") no-repeat;
   background-size: 40rpx;
 }
 .icon_code {
-  background: url("http://cdn.fandypeng.com/vraxueche/security-code@2x.png") no-repeat;
+  background: url("https://cdn.fandypeng.com/vraxueche/security-code@2x.png") no-repeat;
   background-size: 40rpx;
 }
 .placeholder {

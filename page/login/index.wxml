@@ -10,7 +10,7 @@
             <view class="icon_box icon_tel"></view>
         </view>
         <view class="weui-cell__bd input-box">
-            <input class="weui-input" placeholder-class="placeholder" placeholder="请输入您的手机号"/>
+            <input bindinput="getPhoneNum" class="weui-input" type="number" focus="{{phoneFocus}}" placeholder-class="placeholder" placeholder="请输入您的手机号"/>
         </view>
     </view>
 
@@ -23,10 +23,10 @@
             <view class="icon_box icon_code"></view>
         </view>
         <view class="weui-cell__bd input-box">
-            <input class="weui-input" placeholder-class="placeholder" placeholder="请输入验证码"/>
+            <input bindinput="getSmsCode" class="weui-input" type="number" placeholder-class="placeholder" focus="{{smsCodeFocus}}" placeholder="请输入验证码"/>
         </view>
         <view class="weui-cell__ft">
-        <button class="btn-radius weui-btn" type="primary" size="mini" plain="true">获取验证码</button>
+        <button bindtap="requestSmsCode" class="{{smsBtnStyle}}" type="primary" size="mini" plain="true">{{smsBtnTitle}}</button>
         </view>
     </view>
     

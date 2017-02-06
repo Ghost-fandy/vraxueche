@@ -1,13 +1,13 @@
 {
   "pages": [
-    "page/index/index",
-    "page/login/index" 
+    "page/login/index",
+    "page/index/index"
   ],
   "window": {
     "navigationBarTextStyle": "white",
     "navigationBarTitleText": "VR学车",
-    "navigationBarBackgroundColor": "#ff924E",
-    "backgroundColor": "#fbf9fe"
+    "navigationBarBackgroundColor": "#262930",
+    "backgroundColor": "#262930"
   },
   "networkTimeout": {
     "request": 10000,

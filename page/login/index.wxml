@@ -26,7 +26,7 @@
             <input bindinput="getSmsCode" class="weui-input" type="number" placeholder-class="placeholder" focus="{{smsCodeFocus}}" placeholder="请输入验证码"/>
         </view>
         <view class="weui-cell__ft">
-        <button bindtap="requestSmsCode" class="{{smsBtnStyle}}" type="primary" size="mini" plain="true">{{smsBtnTitle}}</button>
+        <button bindtap="requestSmsCode" class="weui-btn btn-radius" type="primary" size="mini" plain="true">{{smsBtnTitle}}</button>
         </view>
     </view>
     

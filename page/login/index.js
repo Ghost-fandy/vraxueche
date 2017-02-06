@@ -8,7 +8,7 @@ Page({
     phoneFocus: true,
     smsCodeFocus: false,
     smsBtnTitle: "获取验证码",
-    smsBtnStyle: "weui-btn weui-btn_disabled weui-btn_warn"
+    time: 0
   },
   onLoad: function () {
     console.log('onLoad')
@@ -41,6 +41,16 @@ Page({
   },
   //请求验证码
   requestSmsCode: function(){
+    if(this.data.phoneNum == 0) {
+      console.log("phone num error")
+      return false
+    }
+    var that = this
+    var time = 60
+    if(this.data.time > 0) {
+      console.log("still in count")
+      return false;
+    }
     wx.request({
       url: 'https://www.axueche.com/driverManager/driverApi/vr/register',
       data: {
@@ -50,7 +60,25 @@ Page({
           'content-type': 'application/json'
       },
       success: function(res) {
-
+        that.setData({
+          smsBtnTitle: "剩余"+ time + "秒",
+          time: time
+        })
+        var intval = setInterval(function(){
+          time --
+          if(time <= 0){
+            clearInterval(intval);
+            that.setData({
+              smsBtnTitle: "获取验证码",
+              time: 0
+            })
+            return false
+          }
+          that.setData({
+            smsBtnTitle: "剩余"+ time + "秒",
+            time: time
+          })
+        }, 1000)
       }
     })
   },
@@ -92,6 +120,27 @@ Page({
     }
 
     //发起登录请求
+    wx.request({
+      url: 'https://www.axueche.com/driverManager/driverApi/vr/login',
+      data: {
+         stuPhone: this.data.phoneNum ,
+         shortVerify: this.data.smsCode,
+         sessionId: ""
+      },
+      header: {
+          'content-type': 'application/json'
+      },
+      success: function(res) {
+        if(res.data.code == 200) {
+          try {
+            wx.setStorageSync('userInfo', res.data.data)
+          } catch (e) {
+            console.log(e)    
+          }
+        }
+        console.log(res.data.data)
+      }
+    })
 
     wx.redirectTo({
       url: '/page/index/index'

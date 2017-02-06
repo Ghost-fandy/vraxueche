@@ -48,7 +48,9 @@ Page({
       case 3:
         wx.scanCode({
           success: function(res){
-            // success
+            wx.navigateTo({
+              url: "/page/login/index"
+            })
           },
           fail: function() {
             // fail
@@ -74,7 +76,9 @@ Page({
       },
       clickable: true
     }
-    if(app.globalData.userInfo != null) {
+    var userInfo = wx.getStorageSync("userInfo")
+    console.log(userInfo)
+    if(userInfo != undefined || userInfo != null || userInfo != NaN) {
       btnControls.id = 3
       btnControls.iconPath = "/image/sacn.png"
     }
@@ -145,23 +149,57 @@ Page({
         fillColor: "#BCE1F3AA",
         radius: 100
       })
-
-      //请求所有的学车点
-
-
-      that.setData({
-        longitude: locationInfo.longitude,
-        latitude: locationInfo.latitude,
-        markers: markers,
-        circles: circles,
-        controls: controls,
+      
+      markers = that.getCarList(locationInfo, function(){
+        that.setData({
+          longitude: 114.268063,
+          latitude: 30.435671,
+          markers: markers,
+          circles: circles,
+          controls: controls,
+        })
       })
-
     })
   },
   // 根据坐标获取车的列表
-  getCarList: function(){
+  getCarList: function(locationInfo, callback){
+      var markers = []
+      wx.request({
+        url: 'https://www.axueche.com/driverManager/driverApi/vr/vrList',
+        data: {
+           longitude: locationInfo.longitude,
+           latitude: locationInfo.latitude,
+           coachName: "",
+           page: 1
+        },
+        header: {
+            'content-type': 'application/json'
+        },
+        success: function(res) {
+          console.warn(res)
+          if(res.data.code == 200 && res.data.data.list.length > 0) {
+            var vrList = res.data.data.list
+            vrList.forEach(function(obj){
+              if(!obj.hasOwnProperty("latitude") || !obj.hasOwnProperty("longitude")) {
+                return false
+              }
+              console.warn(obj)
+              markers.push({
+                iconPath: "/image/sparing-icon@3x.png",
+                id: obj.id,
+                latitude: obj.latitude,
+                longitude: obj.longitude,
+                width: 50,
+                height: 50
+              })
+            })
 
+            callback()
+            
+          }
+        }
+      })
+      return markers
   }
 
 })

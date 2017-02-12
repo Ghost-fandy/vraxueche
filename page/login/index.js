@@ -83,6 +83,10 @@ Page({
     })
   },
   loginAction: function () {
+    wx.redirectTo({
+      url: '/page/index/index'
+    })
+    return false
     var that = this
     if(!(/^1[34578]\d{9}$/.test(this.data.phoneNum))) {
       wx.showModal({

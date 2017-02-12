@@ -6,7 +6,7 @@
 <map id="map" 
 	longitude="{{longitude}}" 
 	latitude="{{latitude}}"
-	scale="10" 
+	scale="14" 
 	controls="{{controls}}" 
 	bindcontroltap="controltap" 
 	markers="{{markers}}" 
@@ -15,7 +15,9 @@
 	bindregionchange="regionchange" 
 	show-location="true" 
 	class="map-common"
-	circles="{{circles}}">
+	circles="{{circles}}"
+	wx:if="{{hasMarkers}}"
+	>
 </map>
 
 </view>

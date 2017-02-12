@@ -26,13 +26,14 @@ Page({
     longitude: 0,
     latitude: 0,
     circles: null,
-    markers: null
+    markers: [],
+    hasMarkers: 0
   },
   regionchange(e) {
     console.log(e.type)
   },
   markertap(e) {
-    console.log(e.markerId)
+    console.log(e)
   },
   controltap(e) {
     //点击地图上的按钮
@@ -48,8 +49,10 @@ Page({
       case 3:
         wx.scanCode({
           success: function(res){
-            wx.navigateTo({
-              url: "/page/login/index"
+            wx.showToast({
+              title: JSON.stringify(res),
+              icon: 'loading',
+              duration: 2000
             })
           },
           fail: function() {
@@ -64,6 +67,11 @@ Page({
   },
   onLoad:function(options){
     
+    wx.showToast({
+      title: '加载中',
+      icon: 'loading',
+      duration: 2000
+    })
     var controls = this.data.controls
     var btnControls = {
       id: 2,
@@ -115,6 +123,9 @@ Page({
             longitude: res.longitude
             ,latitude: res.latitude
           })
+
+          //获取附近的学车点
+          that.getCarList(res, that)
         }
       })
   },
@@ -126,7 +137,7 @@ Page({
   },
   locate: function(controls){
     var that = this
-    var markers = [], circles = []
+    var circles = []
     if(controls == undefined) {
       var controls = this.data.controls
     }
@@ -143,27 +154,31 @@ Page({
         clickable: false
       })
       circles.push({
-        latitude: locationInfo.latitude,
         longitude: locationInfo.longitude,
+        latitude: locationInfo.latitude,
         color: "#BCE1F3AA",
         fillColor: "#BCE1F3AA",
         radius: 100
       })
       
-      markers = that.getCarList(locationInfo, function(){
-        that.setData({
-          longitude: 114.268063,
-          latitude: 30.435671,
-          markers: markers,
-          circles: circles,
-          controls: controls,
-        })
+      that.getCarList(locationInfo, that)
+
+      that.setData({
+        longitude: 114.268063,
+        latitude: 30.435671,
+        // longitude: locationInfo.longitude,
+        // latitude: locationInfo.latitude,
+        circles: circles,
+        controls: controls,
+        hasMarkers: false
       })
+
     })
   },
   // 根据坐标获取车的列表
-  getCarList: function(locationInfo, callback){
-      var markers = []
+  getCarList: function(locationInfo, that){
+      var markers = that.data.markers
+      var hasMarkers = this.data.hasMarkers
       wx.request({
         url: 'https://www.axueche.com/driverManager/driverApi/vr/vrList',
         data: {
@@ -176,30 +191,38 @@ Page({
             'content-type': 'application/json'
         },
         success: function(res) {
-          console.warn(res)
           if(res.data.code == 200 && res.data.data.list.length > 0) {
             var vrList = res.data.data.list
             vrList.forEach(function(obj){
               if(!obj.hasOwnProperty("latitude") || !obj.hasOwnProperty("longitude")) {
                 return false
               }
-              console.warn(obj)
+              console.log(obj)
               markers.push({
-                iconPath: "/image/sparing-icon@3x.png",
                 id: obj.id,
-                latitude: obj.latitude,
-                longitude: obj.longitude,
+                iconPath: "/image/sparing-icon@3x.png",
+                latitude: parseFloat(obj.latitude) + (Math.random()/100),
+                longitude: parseFloat(obj.longitude) - (Math.random()/100),
                 width: 50,
-                height: 50
+                height: 52
               })
             })
 
-            callback()
-            
-          }
+            that.setData({
+              markers: markers,
+              hasMarkers: hasMarkers + 1
+            })
+            wx.hideToast()
         }
-      })
-      return markers
+      },
+      fail: function(res) {
+        wx.showToast({
+          title: '请求失败',
+          icon: 'loading',
+          duration: 2000
+        })
+      }
+    })
   }
 
 })

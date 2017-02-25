@@ -1,0 +1,50 @@
+/**index.wxss**/
+.login_head {
+  margin-top: 102rpx;
+}
+.page {
+  margin: 0rpx 108rpx;
+}
+.weui-cells {
+  margin-bottom: 50rpx;
+}
+.input-cell-box {
+  border-top: 1rpx solid #ffffff;
+  padding-left: 0rpx;
+  padding-right: 0rpx;
+  margin-top: 30rpx;
+}
+.input-box {
+  margin-bottom:10rpx;
+}
+.icon_box {
+  width: 68rpx;
+  height: 60rpx;
+  margin-bottom: 10rpx;
+}
+.icon_tel {
+  background: url("https://cdn.fandypeng.com/vraxueche/tel@3x.png") no-repeat;
+  background-size: 40rpx;
+}
+.icon_code {
+  background: url("https://cdn.fandypeng.com/vraxueche/security-code@2x.png") no-repeat;
+  background-size: 40rpx;
+}
+.placeholder {
+  font-size: 28rpx;
+  color: #c6c6c6;
+  font-family: sans-serif;
+}
+.login-box {
+  margin-top: 200rpx;
+}
+.login-desc {
+  font-size: 20rpx;
+  margin-top: 14rpx;
+  text-align: center;
+  color: #969696;
+}
+.login-desc-rule {
+  color: #7081ab;
+  display: inline;
+}

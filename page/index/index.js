@@ -36,6 +36,7 @@ Page({
     console.log(e)
   },
   controltap(e) {
+    var that = this
     //点击地图上的按钮
     switch(e.controlId) {
       case 1:
@@ -49,11 +50,14 @@ Page({
       case 3:
         wx.scanCode({
           success: function(res){
-            wx.showToast({
-              title: JSON.stringify(res),
-              icon: 'loading',
-              duration: 2000
-            })
+            if(res.errMsg == "scanCode:ok") {
+              that.scanVr(res)              
+            }
+            // wx.showToast({
+            //   title: JSON.stringify(res),
+            //   icon: 'loading',
+            //   duration: 2000
+            // })
           },
           fail: function() {
             // fail
@@ -214,6 +218,86 @@ Page({
             })
             wx.hideToast()
         }
+      },
+      fail: function(res) {
+        wx.showToast({
+          title: '请求失败',
+          icon: 'loading',
+          duration: 2000
+        })
+      }
+    })
+  },
+  scanVr: function(scanObj) {
+
+    var that = this
+    var scanData = scanObj.result.split(",");
+    var userInfo = wx.getStorageSync("userInfo")
+    if(userInfo == undefined || userInfo == null || userInfo == NaN) {
+      wx.redirectTo({
+        url: '/page/login/index'
+      })
+      return false;
+    }
+    wx.showToast({
+      title: '加载中',
+      icon: 'loading',
+      duration: 2000
+    })
+    wx.request({
+        url: 'https://www.axueche.com/driverManager/driverApi/vr/scanvr',
+        data: {
+           uuid: scanData[0],
+           deviceId: scanData[1],
+           id: userInfo.id,
+           sessionId: userInfo.sessionId
+        },
+        header: {
+            'content-type': 'application/json'
+        },
+        success: function(res) {
+          if(res.data.code == 200) {
+            that.vrLogin(scanData)
+          } else {
+            wx.showToast({
+              title: res.data.msg,
+              icon: 'loading',
+              duration: 2000
+            })
+          }
+      },
+      fail: function(res) {
+        wx.showToast({
+          title: '请求失败',
+          icon: 'loading',
+          duration: 2000
+        })
+      }
+    })
+  },
+  vrLogin: function(scanData) {
+
+    wx.request({
+        url: 'https://www.axueche.com/driverManager/driverApi/vr/vrlogin',
+        data: {
+           uuid: scanData[0]
+        },
+        header: {
+            'content-type': 'application/json'
+        },
+        success: function(res) {
+          if(res.data.code == 200) {
+            wx.hideToast()
+            wx.navigateTo({
+              url: '/page/learn/index'
+            })
+          } else {
+            wx.showToast({
+              title: res.data.msg,
+              icon: 'loading',
+              duration: 2000
+            })
+          }
       },
       fail: function(res) {
         wx.showToast({

@@ -11,13 +11,7 @@ Page({
     time: 0
   },
   onLoad: function () {
-    var userInfo = wx.getStorageSync("userInfo")
-    if(userInfo != undefined || userInfo != null || userInfo != NaN) {
-      wx.redirectTo({
-        url: '/page/index/index'
-      })
-      return false;
-    }
+    console.log('onLoad')
   },
   getPhoneNum: function(e) {
     var that = this
@@ -89,10 +83,10 @@ Page({
     })
   },
   loginAction: function () {
-    // wx.redirectTo({
-    //   url: '/page/index/index'
-    // })
-    // return false
+    wx.redirectTo({
+      url: '/page/index/index'
+    })
+    return false
     var that = this
     if(!(/^1[34578]\d{9}$/.test(this.data.phoneNum))) {
       wx.showModal({

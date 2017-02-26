@@ -10,13 +10,11 @@ Page({
     smsBtnTitle: "获取验证码",
     time: 0
   },
-  onLoad: function () {
-    var userInfo = wx.getStorageSync("userInfo")
-    if(userInfo != undefined || userInfo != null || userInfo != NaN) {
-      wx.redirectTo({
-        url: '/page/index/index'
-      })
-      return false;
+  onLoad: function (params) {
+    if( params.hasOwnProperty('code') && params.code == 1) {
+      wx.clearStorage()
+    } else {
+      var userInfo = app.getUserInfo()
     }
   },
   getPhoneNum: function(e) {

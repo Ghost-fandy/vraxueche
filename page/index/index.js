@@ -208,7 +208,7 @@ Page({
                 latitude: parseFloat(obj.latitude) + (Math.random()/100),
                 longitude: parseFloat(obj.longitude) - (Math.random()/100),
                 width: 50,
-                height: 52
+                height: 57
               })
             })
 
@@ -217,11 +217,13 @@ Page({
               hasMarkers: hasMarkers + 1
             })
             wx.hideToast()
-        }
+          } else {
+            that.redirectToLogin(res)
+          }
       },
       fail: function(res) {
         wx.showToast({
-          title: '请求失败',
+          title: 'getCarList请求失败',
           icon: 'loading',
           duration: 2000
         })
@@ -259,16 +261,12 @@ Page({
           if(res.data.code == 200) {
             that.vrLogin(scanData)
           } else {
-            wx.showToast({
-              title: res.data.msg,
-              icon: 'loading',
-              duration: 2000
-            })
+            that.redirectToLogin(res)
           }
       },
       fail: function(res) {
         wx.showToast({
-          title: '请求失败',
+          title: 'scanVr请求失败',
           icon: 'loading',
           duration: 2000
         })
@@ -276,7 +274,7 @@ Page({
     })
   },
   vrLogin: function(scanData) {
-
+    var that = this
     wx.request({
         url: 'https://www.axueche.com/driverManager/driverApi/vr/vrlogin',
         data: {
@@ -292,18 +290,26 @@ Page({
               url: '/page/learn/index'
             })
           } else {
-            wx.showToast({
-              title: res.data.msg,
-              icon: 'loading',
-              duration: 2000
-            })
+            that.redirectToLogin(res)
           }
       },
       fail: function(res) {
         wx.showToast({
-          title: '请求失败',
+          title: 'vrLogin请求失败',
           icon: 'loading',
           duration: 2000
+        })
+      }
+    })
+  }, 
+  redirectToLogin: function(res) {
+    wx.showToast({
+      title: res.data.msg,
+      icon: 'loading',
+      duration: 2000,
+      complete: function(){
+        wx.redirectTo({
+          url: '/page/login/index?code=1'
         })
       }
     })

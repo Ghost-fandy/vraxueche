@@ -150,8 +150,6 @@ Page({
       }
     })
 
-    wx.redirectTo({
-      url: '/page/index/index'
-    })
+    wx.navigateBack()
   },
 })

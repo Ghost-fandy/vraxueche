@@ -4,12 +4,9 @@ App({
     var systemInfo = wx.getSystemInfoSync()
     this.globalData.windowHeight = systemInfo.windowHeight
     this.globalData.systemInfo = systemInfo
-    var userInfo = this.getUserInfo(true)
+    var userInfo = this.getUserInfo()
     if(userInfo) {
       this.globalData.userInfo = userInfo
-      wx.redirectTo({
-        url: '/page/index/index'
-      })
     }
   },
   getLocationInfo: function(cb){

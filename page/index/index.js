@@ -7,7 +7,7 @@ Page({
       iconPath: '/image/yuanwei@3x.png',
       position: {
         left: 10,
-        top: app.globalData.systemInfo.windowHeight - 50,
+        top: app.globalData.systemInfo.windowHeight - 52,
         width: 40,
         height: 40
       },
@@ -48,6 +48,10 @@ Page({
         })
         break
       case 3:
+        // wx.redirectTo({
+        //   url: '/page/learn/index'
+        // })
+        // return 
         wx.scanCode({
           success: function(res){
             if(res.errMsg == "scanCode:ok") {
@@ -88,9 +92,8 @@ Page({
       },
       clickable: true
     }
-    var userInfo = wx.getStorageSync("userInfo")
-    console.log(userInfo)
-    if(userInfo != undefined || userInfo != null || userInfo != NaN) {
+    var userInfo = app.getUserInfo()
+    if(userInfo) {
       btnControls.id = 3
       btnControls.iconPath = "/image/sacn.png"
     }
@@ -107,6 +110,24 @@ Page({
   onShow:function(){
     // 页面显示
     console.log("页面显示")
+    var userInfo = app.getUserInfo()
+    var controls = this.data.controls
+    var controlLengh = controls.length
+    for (var i=0; i < controlLengh; i++) {
+      var obj = controls[i]
+      if(userInfo && obj.id == 2) {
+        controls[i].id = 3
+        controls[i].iconPath = "/image/sacn.png"
+      }
+
+      if(!userInfo && obj.id == 3) {
+        controls[i].id = 2
+        controls[i].iconPath = "/image/login.png"
+      }
+    }
+    this.setData({
+      controls: controls
+    })
   },
   onHide:function(){
     // 页面隐藏
@@ -168,10 +189,10 @@ Page({
       that.getCarList(locationInfo, that)
 
       that.setData({
-        longitude: 114.268063,
-        latitude: 30.435671,
-        // longitude: locationInfo.longitude,
-        // latitude: locationInfo.latitude,
+        // longitude: 114.268063,
+        // latitude: 30.435671,
+        longitude: locationInfo.longitude,
+        latitude: locationInfo.latitude,
         circles: circles,
         controls: controls,
         hasMarkers: false
@@ -181,7 +202,8 @@ Page({
   },
   // 根据坐标获取车的列表
   getCarList: function(locationInfo, that){
-      var markers = that.data.markers
+      // var markers = that.data.markers
+      var markers = []
       var hasMarkers = this.data.hasMarkers
       wx.request({
         url: 'https://www.axueche.com/driverManager/driverApi/vr/vrList',
@@ -286,7 +308,7 @@ Page({
         success: function(res) {
           if(res.data.code == 200) {
             wx.hideToast()
-            wx.navigateTo({
+            wx.redirectTo({
               url: '/page/learn/index'
             })
           } else {

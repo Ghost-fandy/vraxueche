@@ -1,6 +1,16 @@
-<!--login/index.wxml-->
+<!--learn/index.wxml-->
 <view class="page">
 
-  测试结果
+  <view class="page-banner">
+    <image mode="aspectFill" src="/image/train_banner.jpg"></image>
+    <view class="page-desc">
+      <text class="desc-head">模拟器运行中</text>
+      <text class="desc-content">已运行时长 {{runTime}}</text>
+    </view>
+  </view>
+
+  <view class="page-action">
+    <button bindtap="vrQuit" class="weui-btn btn-common" type="primary">退出模拟器</button>
+  </view>
 
 </view>
